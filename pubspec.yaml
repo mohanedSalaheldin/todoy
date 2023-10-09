@@ -18,3 +18,10 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  fonts:
+    - family: Onesans     
+      fonts:
+        - asset: assets/fonts/AROneSans-Bold.ttf
+        - asset: assets/fonts/AROneSans-Medium.ttf
+        - asset: assets/fonts/AROneSans-Regular.ttf
+        - asset: assets/fonts/AROneSans-SemiBold.ttf
