@@ -5,6 +5,6 @@ class TagsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('Tags'),);
+    return const Center(child: Text('Tags'),);
   }
 }

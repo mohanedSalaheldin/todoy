@@ -1,9 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_with_firebase_08oct/shered/components/components.dart';
 import 'package:todo_with_firebase_08oct/shered/cubit/cubit.dart';
 import 'package:todo_with_firebase_08oct/shered/cubit/states.dart';
-import 'package:todo_with_firebase_08oct/shered/styles/colors.dart';
 
 class HomeLayout extends StatelessWidget {
   const HomeLayout({super.key});
@@ -20,7 +19,7 @@ class HomeLayout extends StatelessWidget {
           var cubit = TodoCubit.get(context);
           return Scaffold(
             appBar: AppBar(
-              title: Text('Todoy'),
+              title: const Text('Todoy'),
             ),
             body: cubit.screens[cubit.currentIndex],
             bottomNavigationBar: BottomAppBar(
@@ -67,75 +66,3 @@ class HomeLayout extends StatelessWidget {
     );
   }
 }
-
-Widget showMyDialog(context) => AlertDialog(
-      title: Center(
-          child: Text(
-        'Add new note',
-      )),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-      ),
-      content: SizedBox(
-        height: MediaQuery.of(context).size.height * .5,
-        width: MediaQuery.of(context).size.width * .75,
-        child: Form(
-          child: Column(
-            children: [
-              defaultTextform(
-                label: 'Task',
-                icon: Icons.article_outlined,
-              ),
-              defaultTextform(
-                label: 'Description',
-                icon: Icons.description,
-              ),
-              defaultTextform(
-                label: 'Tag',
-                icon: Icons.discount_outlined,
-              ),
-            ],
-          ),
-        ),
-      ),
-      actions: [
-        ElevatedButton(
-          onPressed: () {},
-          child: Text(
-            'cancel',
-          ),
-        ),
-        ElevatedButton(
-          onPressed: () {},
-          child: Text(
-            'Save',
-          ),
-        ),
-      ],
-    );
-Widget defaultTextform({
-  required IconData icon,
-  required String label,
-}) =>
-    Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: 15,
-      ),
-      child: TextFormField(
-        keyboardType: TextInputType.multiline,
-        style: TextStyle(
-          fontSize: 18.0,
-          fontWeight: FontWeight.bold,
-        ),
-        // maxLines: 1,
-        // maxLength: 30,
-
-        decoration: InputDecoration(
-          icon: Icon(
-            icon,
-            size: 30.0,
-          ),
-          label: Text(label),
-        ),
-      ),
-    );
