@@ -8,8 +8,8 @@ class TodoCubit extends Cubit<TodoStates> {
 
   static TodoCubit get(context) => BlocProvider.of(context);
   List screens = [
-    NotesScreen(),
-    TagsScreen(),
+    const NotesScreen(),
+    const TagsScreen(),
   ];
   int currentIndex = 0;
   void changeBottonNavBarItem(index) {
