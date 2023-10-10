@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirebaseHelper {
-  Future<DocumentReference<Map<String, dynamic>>> addTask({
+  static Future<DocumentReference<Map<String, dynamic>>> addTask({
     required taskName,
     required taskDesc,
     required taskTag,
