@@ -1,3 +1,4 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 
 final List<String> items = [
@@ -6,6 +7,11 @@ final List<String> items = [
   'Workout',
   'Job',
 ];
+final _formKey = GlobalKey<FormState>();
+String selectedValue = '';
+var taskController = TextEditingController();
+var descriptionController = TextEditingController();
+var tagController = TextEditingController();
 Widget showMyDialog(context) => AlertDialog(
       title: const Center(
           child: Text(
@@ -18,76 +24,111 @@ Widget showMyDialog(context) => AlertDialog(
         height: MediaQuery.of(context).size.height * .5,
         width: MediaQuery.of(context).size.width * .75,
         child: Form(
+          key: _formKey,
           child: Column(
             children: [
               defaultTextform(
+                validation: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Task name can\'t be empty';
+                  }
+                  return null;
+                },
+                controller: taskController,
                 label: 'Task',
                 icon: Icons.task_outlined,
               ),
               defaultTextform(
+                validation: (p0) {
+                  return null;
+                },
+                controller: descriptionController,
                 label: 'Description',
                 icon: Icons.article_outlined,
               ),
-              // Row(
-              //   children: [
-              //     Icon(
-              //       Icons.discount_outlined,
-              //       size: 30.0,
-              //     ),
-              //     SizedBox(
-              //       width: 15.0,
-              //     ),
-              //     DropdownMenu(
-              //       inputDecorationTheme: InputDecorationTheme(),
-              //       dropdownMenuEntries: [
-              //         DropdownMenuEntry(
-              //           label: 'School',
-              //           value: 'School',
-              //         ),
-              //         DropdownMenuEntry(
-              //           label: 'Job',
-              //           value: 'Job',
-              //         ),
-              //         DropdownMenuEntry(
-              //           label: 'Workout',
-              //           value: 'Workout',
-              //         ),
-              //       ],
-              //     ),
-              //   ],
-              // ),
-              // Row(
-              //   children: [
-              //     Icon(
-              //       Icons.discount_outlined,
-              //     ),
-              //     SizedBox(
-              //       width: 15.0,
-              //     ),
-              //     DropdownButtonFormField(
-              //       value: items[0],
-              //       items: items
-              //           .map((String item) => DropdownMenuItem<String>(
-              //                 value: item,
-              //                 child: Text(
-              //                   item,
-              //                   style: const TextStyle(
-              //                     fontSize: 14,
-              //                     fontWeight: FontWeight.bold,
-              //                     color: Colors.black,
-              //                   ),
-              //                   overflow: TextOverflow.ellipsis,
-              //                 ),
-              //               ))
-              //           .toList(),
-              //       onChanged: (val) {},
-              //     ),
-              //   ],
-              // ),
-
-              defaultTextform(
-                label: 'Tag',
-                icon: Icons.discount_outlined,
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 15,
+                ),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.discount_outlined,
+                      size: 30.0,
+                    ),
+                    const SizedBox(
+                      width: 15.0,
+                    ),
+                    Expanded(
+                      child: DropdownButtonFormField2<String>(
+                        isExpanded: true,
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsetsDirectional.symmetric(
+                            horizontal: 20,
+                            vertical: 32,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          // Add more decoration..
+                        ),
+                        hint: const Text(
+                          'Tag',
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        items: items
+                            .map((item) => DropdownMenuItem<String>(
+                                  value: item,
+                                  child: Text(
+                                    item,
+                                    style: const TextStyle(
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ))
+                            .toList(),
+                        validator: (value) {
+                          // if (value == null) {
+                          //   return '';
+                          // }
+                          return null;
+                        },
+                        onChanged: (value) {
+                          tagController.text = value!;
+                          //Do something when selected item is changed.
+                        },
+                        onSaved: (value) {
+                          selectedValue = value.toString();
+                        },
+                        buttonStyleData: const ButtonStyleData(
+                            // padding: EdgeInsets.only(right: 8),
+                            ),
+                        iconStyleData: const IconStyleData(
+                          icon: Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.black45,
+                          ),
+                          iconSize: 24,
+                        ),
+                        dropdownStyleData: DropdownStyleData(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
+                        menuItemStyleData: const MenuItemStyleData(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 2,
+                            vertical: 0,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -104,7 +145,17 @@ Widget showMyDialog(context) => AlertDialog(
           ),
         ),
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            if (_formKey.currentState!.validate()) {
+              // print(taskController.text);
+              // print(descriptionController.text);
+              // print(tagController.text);
+              taskController.text = '';
+              descriptionController.text = '';
+              tagController.text = '';
+              Navigator.pop(context);
+            }
+          },
           child: const Text(
             'Save',
           ),
@@ -114,12 +165,16 @@ Widget showMyDialog(context) => AlertDialog(
 Widget defaultTextform({
   required IconData icon,
   required String label,
+  required controller,
+  required String? Function(String?)? validation,
 }) =>
     Padding(
       padding: const EdgeInsets.symmetric(
         vertical: 15,
       ),
       child: TextFormField(
+        validator: validation,
+        controller: controller,
         keyboardType: TextInputType.multiline,
         style: const TextStyle(
           fontSize: 18.0,
