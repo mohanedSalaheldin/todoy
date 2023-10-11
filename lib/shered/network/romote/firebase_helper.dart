@@ -13,4 +13,8 @@ class FirebaseHelper {
       'taskTag': taskTag,
     });
   }
+
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getTasks() {
+    return FirebaseFirestore.instance.collection('tasks').snapshots();
+  }
 }

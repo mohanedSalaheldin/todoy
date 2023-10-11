@@ -28,122 +28,124 @@ Widget showMyDialog(context) => Center(
             width: MediaQuery.of(context).size.width * .75,
             child: Form(
               key: _formKey,
-              child: Column(
-                children: [
-                  defaultTextform(
-                    validation: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Task name can\'t be empty';
-                      }
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    defaultTextform(
+                      validation: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Task name can\'t be empty';
+                        }
 
-                      return null;
-                    },
-                    controller: taskController,
-                    label: 'Task',
-                    icon: Icons.task_outlined,
-                  ),
-                  defaultTextform(
-                    validation: (p0) {
-                      return null;
-                    },
-                    controller: descriptionController,
-                    label: 'Description',
-                    icon: Icons.article_outlined,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 15,
+                        return null;
+                      },
+                      controller: taskController,
+                      label: 'Task',
+                      icon: Icons.task_outlined,
                     ),
-                    child: Row(
-                      children: [
-                        const Icon(
-                          Icons.discount_outlined,
-                          size: 30.0,
-                        ),
-                        const SizedBox(
-                          width: 15.0,
-                        ),
-                        Expanded(
-                          child: DropdownButtonFormField2<String>(
-                            isExpanded: true,
-                            decoration: InputDecoration(
-                              contentPadding:
-                                  const EdgeInsetsDirectional.symmetric(
-                                horizontal: 20,
-                                vertical: 32,
-                              ),
-
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-
-                              // Add more decoration..
-                            ),
-                            hint: const Text(
-                              'Tag',
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            items: items
-                                .map((item) => DropdownMenuItem<String>(
-                                      value: item,
-                                      child: Text(
-                                        item,
-                                        style: const TextStyle(
-                                          fontSize: 18.0,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ))
-                                .toList(),
-                            validator: (value) {
-                              // if (value == null) {
-
-                              //   return '';
-
-                              // }
-
-                              return null;
-                            },
-                            onChanged: (value) {
-                              tagController.text = value!;
-
-                              //Do something when selected item is changed.
-                            },
-                            onSaved: (value) {
-                              selectedValue = value.toString();
-                            },
-                            buttonStyleData: const ButtonStyleData(
-
-                                // padding: EdgeInsets.only(right: 8),
-
+                    defaultTextform(
+                      validation: (p0) {
+                        return null;
+                      },
+                      controller: descriptionController,
+                      label: 'Description',
+                      icon: Icons.article_outlined,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 15,
+                      ),
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.discount_outlined,
+                            size: 30.0,
+                          ),
+                          const SizedBox(
+                            width: 15.0,
+                          ),
+                          Expanded(
+                            child: DropdownButtonFormField2<String>(
+                              isExpanded: true,
+                              decoration: InputDecoration(
+                                contentPadding:
+                                    const EdgeInsetsDirectional.symmetric(
+                                  horizontal: 20,
+                                  vertical: 32,
                                 ),
-                            iconStyleData: const IconStyleData(
-                              icon: Icon(
-                                Icons.arrow_drop_down,
-                                color: Colors.black45,
+
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+
+                                // Add more decoration..
                               ),
-                              iconSize: 24,
-                            ),
-                            dropdownStyleData: DropdownStyleData(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
+                              hint: const Text(
+                                'Tag',
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                            menuItemStyleData: const MenuItemStyleData(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 2,
-                                vertical: 0,
+                              items: items
+                                  .map((item) => DropdownMenuItem<String>(
+                                        value: item,
+                                        child: Text(
+                                          item,
+                                          style: const TextStyle(
+                                            fontSize: 18.0,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ))
+                                  .toList(),
+                              validator: (value) {
+                                // if (value == null) {
+
+                                //   return '';
+
+                                // }
+
+                                return null;
+                              },
+                              onChanged: (value) {
+                                tagController.text = value!;
+
+                                //Do something when selected item is changed.
+                              },
+                              onSaved: (value) {
+                                selectedValue = value.toString();
+                              },
+                              buttonStyleData: const ButtonStyleData(
+
+                                  // padding: EdgeInsets.only(right: 8),
+
+                                  ),
+                              iconStyleData: const IconStyleData(
+                                icon: Icon(
+                                  Icons.arrow_drop_down,
+                                  color: Colors.black45,
+                                ),
+                                iconSize: 24,
+                              ),
+                              dropdownStyleData: DropdownStyleData(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                              ),
+                              menuItemStyleData: const MenuItemStyleData(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 2,
+                                  vertical: 0,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -160,16 +162,10 @@ Widget showMyDialog(context) => Center(
             ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  print(taskController.text);
-
-                  print(descriptionController.text);
-
-                  print(tagController.text);
-
                   FirebaseHelper.addTask(
-                    taskName: 'Add task',
-                    taskDesc: 'This task #1 from vs code',
-                    taskTag: 'Work',
+                    taskName: taskController.text,
+                    taskDesc: descriptionController.text,
+                    taskTag: tagController.text,
                   );
 
                   taskController.text = '';
@@ -207,9 +203,6 @@ Widget defaultTextform({
           fontSize: 18.0,
           fontWeight: FontWeight.bold,
         ),
-        // maxLines: 1,
-        // maxLength: 30,
-
         decoration: InputDecoration(
           icon: Icon(
             icon,
@@ -219,3 +212,129 @@ Widget defaultTextform({
         ),
       ),
     );
+Widget buildTask({
+  required context,
+  required taskName,
+  required String taskDesc,
+  required tasktag,
+}) =>
+    Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 15.0,
+      ),
+      child: Container(
+        height: MediaQuery.of(context).size.height * .25,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: const [
+            BoxShadow(
+              blurRadius: 15.0,
+              color: Colors.black12,
+              offset: Offset(0, 5),
+            ),
+          ],
+          color: Colors.white,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CircleAvatar(
+                backgroundColor: chooseTaskColor(tasktag),
+                radius: 10.0,
+              ),
+              const SizedBox(
+                width: 20.0,
+              ),
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '$taskName',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10.0,
+                    ),
+                    Expanded(
+                      child: Text(
+                        '$taskDesc',
+                        maxLines: 2,
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 5.0,
+                    ),
+                    Row(
+                      children: [
+                        const Spacer(),
+                        Text(
+                          '#$tasktag',
+                          style: const TextStyle(
+                            fontSize: 18.0,
+                            color: Colors.black26,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              PopupMenuButton<int>(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                onSelected: (item) => print(item),
+                itemBuilder: (context) => const [
+                  PopupMenuItem<int>(
+                    value: 0,
+                    child: Text(
+                      'Update',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  PopupMenuItem<int>(
+                    value: 1,
+                    child: Text(
+                      'Delete',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.red,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+//   'Home',
+// 'School',
+// 'Workout',
+// 'Job',
+Color? chooseTaskColor(String tag) {
+  if (tag == 'Home') {
+    return Colors.blue;
+  } else if (tag == 'School') {
+    return Colors.green;
+  } else if (tag == 'Workout') {
+    return Colors.orange;
+  } else {
+    return Colors.red;
+  }
+}
