@@ -16,4 +16,5 @@ class TodoCubit extends Cubit<TodoStates> {
     currentIndex = index;
     emit(ChangeBottomNavBarState());
   }
+  
 }
