@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:todo_with_firebase_08oct/models/task_model.dart';
 import 'package:todo_with_firebase_08oct/shered/components/components.dart';
 import 'package:todo_with_firebase_08oct/shered/cubit/cubit.dart';
@@ -12,7 +13,20 @@ class NotesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<TodoCubit, TodoStates>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is UpdateTaskSuccessState) {
+          Fluttertoast.showToast(msg: 'Task updated successfuly');
+        }
+        if (state is UpdateTaskSuccessState) {
+          Fluttertoast.showToast(msg: 'Task update failed');
+        }
+        if (state is DeleteTaskSuccessState) {
+          Fluttertoast.showToast(msg: 'Task  deleted successfuly');
+        }
+        if (state is DeleteTaskSuccessState) {
+          Fluttertoast.showToast(msg: 'Task delet failed');
+        }
+      },
       builder: (context, state) => Center(
         child: StreamBuilder(
           stream: FirebaseHelper.getTasks(),

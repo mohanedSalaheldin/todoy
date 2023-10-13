@@ -7,7 +7,6 @@ ThemeData lightTheme() => ThemeData(
         textStyle: MaterialStateProperty.all(
           const TextStyle(
             fontSize: 16.0,
-            // fontWeight: FontWeight.bold,`
           ),
         ),
         padding: MaterialStateProperty.all(

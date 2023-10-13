@@ -39,11 +39,17 @@ class TodoCubit extends Cubit<TodoStates> {
         taskId: taskId,
       ),
     ).then((value) {
-      print('Added done');
       emit(UpdateTaskSuccessState());
     }).catchError((error) {
-      print('Added failed');
       emit(UpdateTaskErrorState());
+    });
+  }
+
+  void deleteTask({required taskId}) {
+    FirebaseHelper.deleteTask(taskId: taskId).then((value) {
+      emit(DeleteTaskSuccessState());
+    }).catchError((error) {
+      emit(DeleteTaskErrorState());
     });
   }
 }

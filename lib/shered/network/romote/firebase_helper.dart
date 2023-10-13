@@ -25,11 +25,18 @@ class FirebaseHelper {
   }
 
   static Future<void> updateTask({required TaskModel model}) {
-    return FirebaseFirestore.instance.collection('tasks').doc(model.taskId).update({
+    return FirebaseFirestore.instance
+        .collection('tasks')
+        .doc(model.taskId)
+        .update({
       'taskName': model.taskName,
       'taskTag': model.taskTag,
       'taskDesc': model.taskDesc,
       'taskId': model.taskId,
     });
+  }
+
+  static Future<void> deleteTask({required taskId}) {
+    return FirebaseFirestore.instance.collection('tasks').doc(taskId).delete();
   }
 }
