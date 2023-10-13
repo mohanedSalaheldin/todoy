@@ -1,5 +1,6 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:todo_with_firebase_08oct/models/task_model.dart';
 import 'package:todo_with_firebase_08oct/screens/update_task_screen.dart';
 import 'package:todo_with_firebase_08oct/shered/cubit/cubit.dart';
@@ -17,7 +18,7 @@ var taskController = TextEditingController();
 var descriptionController = TextEditingController();
 var tagController = TextEditingController();
 
-Widget showMyDialog({
+Widget AddTaskDialog({
   required context,
 }) =>
     Builder(
@@ -172,7 +173,9 @@ Widget showMyDialog({
                         taskName: taskController.text,
                         taskDesc: descriptionController.text,
                         taskTag: tagController.text,
-                      );
+                      ).then((value) {
+                        Fluttertoast.showToast(msg: 'Task added successfuly');
+                      });
 
                       taskController.text = '';
 
@@ -193,197 +196,57 @@ Widget showMyDialog({
         );
       },
     );
-
-// final _updateFormKey = GlobalKey<FormState>();
-// String selectedUpdateValue = '';
-// var taskUpdateController = TextEditingController();
-// var descriptionUpdateController = TextEditingController();
-// var tagUpdateController = TextEditingController();
-// Widget showUpdateDialog({
-//   required context,
-//   required TaskModel? model,
-// }) =>
-//     Builder(
-//       builder: (context) {
-//         taskUpdateController.text = model!.taskName!;
-//         descriptionUpdateController.text = model.taskDesc!;
-//         tagUpdateController.text = model.taskTag!;
-
-//         return Center(
-//           child: SingleChildScrollView(
-//             child: AlertDialog(
-//               title: const Center(
-//                 child: Text(
-//                   'Update Task',
-//                 ),
-//               ),
-//               shape: RoundedRectangleBorder(
-//                 borderRadius: BorderRadius.circular(15),
-//               ),
-//               content: SizedBox(
-//                 height: MediaQuery.of(context).size.height * .60,
-//                 width: MediaQuery.of(context).size.width * .75,
-//                 child: Form(
-//                   key: _updateFormKey,
-//                   child: SingleChildScrollView(
-//                     child: Column(
-//                       children: [
-//                         defaultUpdateTextform(
-//                           validation: (value) {
-//                             if (value == null || value.isEmpty) {
-//                               return 'Task name can\'t be empty';
-//                             }
-
-//                             return null;
-//                           },
-//                           controller: taskUpdateController,
-//                           label: 'Task',
-//                           icon: Icons.task_outlined,
-//                         ),
-//                         defaultUpdateTextform(
-//                           validation: (p0) {
-//                             return null;
-//                           },
-//                           controller: descriptionUpdateController,
-//                           label: 'Description',
-//                           icon: Icons.article_outlined,
-//                         ),
-//                         Padding(
-//                           padding: const EdgeInsets.symmetric(
-//                             vertical: 15,
-//                           ),
-//                           child: Row(
-//                             children: [
-//                               const Icon(
-//                                 Icons.discount_outlined,
-//                                 size: 30.0,
-//                               ),
-//                               const SizedBox(
-//                                 width: 15.0,
-//                               ),
-//                               Expanded(
-//                                 child: DropdownButtonFormField2<String>(
-//                                   value: tagUpdateController.text,
-//                                   isExpanded: true,
-//                                   decoration: InputDecoration(
-//                                     contentPadding:
-//                                         const EdgeInsetsDirectional.symmetric(
-//                                       horizontal: 20,
-//                                       vertical: 32,
-//                                     ),
-
-//                                     border: OutlineInputBorder(
-//                                       borderRadius: BorderRadius.circular(15),
-//                                     ),
-
-//                                     // Add more decoration..
-//                                   ),
-//                                   hint: const Text(
-//                                     'Tag',
-//                                     style: TextStyle(
-//                                       fontSize: 18.0,
-//                                       fontWeight: FontWeight.bold,
-//                                     ),
-//                                   ),
-//                                   items: items
-//                                       .map((item) => DropdownMenuItem<String>(
-//                                             value: item,
-//                                             child: Text(
-//                                               item,
-//                                               style: const TextStyle(
-//                                                 fontSize: 18.0,
-//                                                 fontWeight: FontWeight.bold,
-//                                               ),
-//                                             ),
-//                                           ))
-//                                       .toList(),
-//                                   validator: (value) {
-//                                     return null;
-//                                   },
-//                                   onChanged: (value) {
-//                                     tagController.text = value!;
-
-//                                     //Do something when selected item is changed.
-//                                   },
-//                                   onSaved: (value) {
-//                                     selectedUpdateValue = value.toString();
-//                                   },
-//                                   buttonStyleData: const ButtonStyleData(
-
-//                                       // padding: EdgeInsets.only(right: 8),
-
-//                                       ),
-//                                   iconStyleData: const IconStyleData(
-//                                     icon: Icon(
-//                                       Icons.arrow_drop_down,
-//                                       color: Colors.black45,
-//                                     ),
-//                                     iconSize: 24,
-//                                   ),
-//                                   dropdownStyleData: DropdownStyleData(
-//                                     decoration: BoxDecoration(
-//                                       borderRadius: BorderRadius.circular(15),
-//                                     ),
-//                                   ),
-//                                   menuItemStyleData: const MenuItemStyleData(
-//                                     padding: EdgeInsets.symmetric(
-//                                       horizontal: 2,
-//                                       vertical: 0,
-//                                     ),
-//                                   ),
-//                                 ),
-//                               ),
-//                             ],
-//                           ),
-//                         ),
-//                       ],
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//               actions: [
-//                 ElevatedButton(
-//                   onPressed: () {
-//                     Navigator.pop(context);
-//                   },
-//                   style: ButtonStyle(
-//                     backgroundColor: MaterialStateProperty.all(Colors.grey),
-//                   ),
-//                   child: const Text(
-//                     'Cancel',
-//                   ),
-//                 ),
-//                 ElevatedButton(
-//                   onPressed: () {
-//                     if (_updateFormKey.currentState!.validate()) {
-//                       print(taskUpdateController.text);
-//                       print(descriptionUpdateController.text);
-//                       print(tagUpdateController.text);
-//                       FirebaseHelper.updateTask(
-//                         model: TaskModel(
-//                           taskName: taskUpdateController.text,
-//                           taskDesc: descriptionUpdateController.text,
-//                           taskTag: tagUpdateController.text,
-//                           taskId: model.taskId,
-//                         ),
-//                       );
-//                       taskUpdateController.text = '';
-//                       descriptionUpdateController.text = '';
-//                       tagUpdateController.text = '';
-//                       Navigator.pop(context);
-//                     }
-//                   },
-//                   child: const Text(
-//                     'Save',
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         );
-//       },
-//     );
-
+Widget removeTaskDialog(context, taskId) => Center(
+      child: AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(
+            15.0,
+          ),
+        ),
+        title: const Text('Delete?'),
+        actions: [
+          Row(
+            children: [
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Close'),
+                ),
+              ),
+              const SizedBox(
+                width: 15.0,
+              ),
+              Expanded(
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(
+                      Colors.grey[200],
+                    ),
+                  ),
+                  onPressed: () {
+                    TodoCubit.get(context).deleteTask(taskId: taskId);
+                    Navigator.pop(context);
+                  },
+                  child: const Text(
+                    'Delete',
+                    style: TextStyle(
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+        content: SizedBox(
+          height: MediaQuery.of(context).size.height * .10,
+          width: MediaQuery.of(context).size.width * .50,
+          child: const Text('Are you sure?'),
+        ),
+      ),
+    );
 Widget defaultTextform({
   required IconData icon,
   required String label,
@@ -535,7 +398,13 @@ Widget buildTask({
                       ),
                     );
                   }
-                  if (item == 1) {}
+                  if (item == 1) {
+                    showDialog(
+                      context: context,
+                      builder: (context) =>
+                          removeTaskDialog(context, model.taskId),
+                    );
+                  }
                 },
                 itemBuilder: (context) => const [
                   PopupMenuItem<int>(
