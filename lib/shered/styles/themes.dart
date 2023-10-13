@@ -2,6 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:todo_with_firebase_08oct/shered/styles/colors.dart';
 
 ThemeData lightTheme() => ThemeData(
+      elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+        textStyle: MaterialStateProperty.all(
+          const TextStyle(
+            fontSize: 16.0,
+            // fontWeight: FontWeight.bold,`
+          ),
+        ),
+        padding: MaterialStateProperty.all(
+          const EdgeInsets.symmetric(
+            horizontal: 15.0,
+            vertical: 15.0,
+          ),
+        ),
+      )),
       // scaffoldBackgroundColor: Colors.white,
       fontFamily: 'OneSans',
       appBarTheme: const AppBarTheme(

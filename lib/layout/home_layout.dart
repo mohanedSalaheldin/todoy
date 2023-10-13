@@ -11,58 +11,55 @@ class HomeLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     // var width = MediaQuery.of(context).size.width;
     // var height = MediaQuery.of(context).size.height;
-    return BlocProvider(
-      create: (context) => TodoCubit(),
-      child: BlocConsumer<TodoCubit, TodoStates>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          var cubit = TodoCubit.get(context);
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text('Todoy'),
-            ),
-            body: cubit.screens[cubit.currentIndex],
-            bottomNavigationBar: BottomAppBar(
-              color: Colors.amber,
-              shape: const CircularNotchedRectangle(),
-              clipBehavior: Clip.antiAlias,
-              notchMargin: 5.0,
-              // height: kBottomNavigationBarHeight,
-              child: BottomNavigationBar(
-                currentIndex: cubit.currentIndex,
-                onTap: (value) {
-                  cubit.changeBottonNavBarItem(value);
-                },
-                items: const [
-                  BottomNavigationBarItem(
-                    label: '',
-                    icon: Icon(
-                      Icons.article_outlined,
-                    ),
-                  ),
-                  BottomNavigationBarItem(
-                    label: '',
-                    icon: Icon(
-                      Icons.discount_outlined,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerDocked,
-            floatingActionButton: FloatingActionButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) => showMyDialog(context: context),
-                );
+    return BlocConsumer<TodoCubit, TodoStates>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        var cubit = TodoCubit.get(context);
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Todoy'),
+          ),
+          body: cubit.screens[cubit.currentIndex],
+          bottomNavigationBar: BottomAppBar(
+            color: Colors.amber,
+            shape: const CircularNotchedRectangle(),
+            clipBehavior: Clip.antiAlias,
+            notchMargin: 5.0,
+            // height: kBottomNavigationBarHeight,
+            child: BottomNavigationBar(
+              currentIndex: cubit.currentIndex,
+              onTap: (value) {
+                cubit.changeBottonNavBarItem(value);
               },
-              child: const Icon(Icons.add),
+              items: const [
+                BottomNavigationBarItem(
+                  label: '',
+                  icon: Icon(
+                    Icons.article_outlined,
+                  ),
+                ),
+                BottomNavigationBarItem(
+                  label: '',
+                  icon: Icon(
+                    Icons.discount_outlined,
+                  ),
+                ),
+              ],
             ),
-          );
-        },
-      ),
+          ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) => showMyDialog(context: context),
+              );
+            },
+            child: const Icon(Icons.add),
+          ),
+        );
+      },
     );
   }
 }

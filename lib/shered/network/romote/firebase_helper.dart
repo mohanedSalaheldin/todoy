@@ -24,16 +24,12 @@ class FirebaseHelper {
     return FirebaseFirestore.instance.collection('tasks').snapshots();
   }
 
-  static updateTask({required TaskModel model}) {
-    FirebaseFirestore.instance.collection('tasks').doc(model.taskId).update({
+  static Future<void> updateTask({required TaskModel model}) {
+    return FirebaseFirestore.instance.collection('tasks').doc(model.taskId).update({
       'taskName': model.taskName,
       'taskTag': model.taskTag,
       'taskDesc': model.taskDesc,
       'taskId': model.taskId,
-    }).then((value) {
-      print('Update Done');
-    }).catchError((error) {
-      print('Update Failed');
     });
   }
 }

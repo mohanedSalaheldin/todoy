@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_with_firebase_08oct/models/task_model.dart';
 import 'package:todo_with_firebase_08oct/shered/components/components.dart';
+import 'package:todo_with_firebase_08oct/shered/cubit/cubit.dart';
+import 'package:todo_with_firebase_08oct/shered/cubit/states.dart';
 import 'package:todo_with_firebase_08oct/shered/network/romote/firebase_helper.dart';
 
 class NotesScreen extends StatelessWidget {
@@ -8,56 +11,60 @@ class NotesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: StreamBuilder(
-        stream: FirebaseHelper.getTasks(),
-        builder: (context, snapshot) {
-          // if (snapshot.hasError) {
-          // return const Center(
-          //   child: Icon(Icons.signal_wifi_connected_no_internet_4_outlined),
-          // );
-          // }
-          if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.connectionState == ConnectionState.none) {
-            return const Center(
-              child: Icon(
-                Icons.signal_wifi_connected_no_internet_4_outlined,
-                size: 30.0,
+    return BlocConsumer<TodoCubit, TodoStates>(
+      listener: (context, state) {},
+      builder: (context, state) => Center(
+        child: StreamBuilder(
+          stream: FirebaseHelper.getTasks(),
+          builder: (context, snapshot) {
+            // if (snapshot.hasError) {
+            // return const Center(
+            //   child: Icon(Icons.signal_wifi_connected_no_internet_4_outlined),
+            // );
+            // }
+            if (!snapshot.hasData) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (snapshot.connectionState == ConnectionState.none) {
+              return const Center(
+                child: Icon(
+                  Icons.signal_wifi_connected_no_internet_4_outlined,
+                  size: 30.0,
+                ),
+              );
+            }
+            return Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 10.0,
+              ),
+              child: ListView.separated(
+                physics: const BouncingScrollPhysics(),
+                itemBuilder: (context, index) {
+                  var model =
+                      TaskModel.fromJson(snapshot.data!.docs[index].data());
+                  return buildTask(
+                    context: context,
+                    model: model,
+                    // taskDesc: model.taskDesc!,
+                    // taskName: model.taskName,
+                    // tasktag: model.,
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return const SizedBox(
+                    height: 10.0,
+                  );
+                },
+                itemCount: snapshot.data!.docs.length,
               ),
             );
-          }
-          return Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 10.0,
-            ),
-            child: ListView.separated(
-              physics: const BouncingScrollPhysics(),
-              itemBuilder: (context, index) {
-                var model = TaskModel.fromJson(snapshot.data!.docs[index].data());
-                return buildTask(
-                  context: context,
-                  model: model,
-                  // taskDesc: model.taskDesc!,
-                  // taskName: model.taskName,
-                  // tasktag: model.,
-                );
-              },
-              separatorBuilder: (context, index) {
-                return const SizedBox(
-                  height: 10.0,
-                );
-              },
-              itemCount: snapshot.data!.docs.length,
-            ),
-          );
-        },
+          },
+        ),
+        //  buildTask(context: context),
       ),
-      //  buildTask(context: context),
     );
   }
 }
